@@ -1,0 +1,48 @@
+# Levanta el agente + n8n en la misma red, listos para hablarse.
+# Comando: docker compose up -d
+#
+# n8n llama al agente con:  http://agent:3000/message
+# Tú accedes a n8n en:      http://<tu-vps>:5678
+# El agente queda accesible solo desde dentro de la red Docker (más seguro);
+# si quieres exponerlo público para webhooks externos, descomenta `ports` en el servicio agent.
+
+services:
+  agent:
+    build: .
+    container_name: agent
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - DB_PATH=/data/agent.db
+    volumes:
+      - agent_data:/data
+    networks:
+      - agent_net
+    # ports:
+    #   - "3000:3000"   # descomenta solo si necesitas llamar al agente desde fuera del VPS
+
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      # Configuración mínima — para producción agrega N8N_HOST, N8N_PROTOCOL=https, etc.
+      - N8N_SECURE_COOKIE=false
+      - N8N_RUNNERS_ENABLED=true
+      - GENERIC_TIMEZONE=America/Mexico_City
+    volumes:
+      - n8n_data:/home/node/.n8n
+    networks:
+      - agent_net
+    depends_on:
+      - agent
+
+volumes:
+  agent_data:
+  n8n_data:
+
+networks:
+  agent_net:
+    driver: bridge
