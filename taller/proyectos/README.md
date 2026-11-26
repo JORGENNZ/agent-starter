@@ -109,3 +109,41 @@ Ocupa 1120 × 430 mm, así que de una hoja de 1220 × 2440 salen **5 bancos**.
 
 **Antes de cortar el banco completo:** mide el MDF. Si no mide 25.0, cambia `T`.
 Corta las dos patas primero y prueba el encastre.
+
+---
+
+## 7. Silla de cuñas — CNC 1325 + VCarve Pro
+Carpeta `silla-cunas/` · archivo `silla.dxf` · acomodo en `hoja.png`
+
+Silla 100 % CNC, sin tornillos ni pegamento: 2 laterales esculpidos, asiento, respaldo,
+2 travesaños y 14 cuñas (12 + 2 de repuesto). Todas las uniones son **espigas pasantes con cuña**:
+la espiga atraviesa el lateral, la cuña entra por el agujero y jala todo hacia adentro.
+Se arma y desarma a mano, y las cuñas a la vista son parte del diseño.
+
+- Asiento a 419 mm · ancho total 564 mm · alto 822 mm · respaldo inclinado unos 20°
+- **Toda la silla sale de una hoja de 1220 × 2440.**
+- El modelo revisa que ninguna pieza se encime con otra y que cada espiga pase completa por su caja.
+
+**Material, importante:** el diseño está en 25 mm. El MDF sirve para una silla decorativa
+o de uso ocasional, pero **para uso diario usa triplay (contrachapado) de 18 mm o más**.
+El MDF se debilita con la humedad y las patas trabajan de canto. Cambia `T` en `modelo.py`
+y se recalculan cajas, espigas y cuñas.
+
+**En VCarve Pro** (material de 25 mm, Z cero en la superficie):
+1. Importa `silla.dxf`.
+2. **CORTE_INT** (cajas, agujeros de cuña y agarradera) → *Profile*, **Inside**, fresa plana de 1/4",
+   a 25.2 mm, con 2 tabs pequeños. **Primero estos.**
+3. **CORTE_EXT** → *Profile*, **Outside**, a 25.2 mm. Usa 3 o 4 tabs en piezas grandes y 1 en cada cuña.
+4. Postprocesador: **RichAuto (mm)**.
+
+**Prueba antes de cortar la silla completa:** corta solo un travesaño y un pedazo de lateral
+con su caja. La espiga debe entrar a mano, firme y sin martillo. Si entra muy floja, baja `HOLG`;
+si no entra, súbela.
+
+**Armado:**
+1. Mete asiento, respaldo y travesaños en un lateral.
+2. Pon el otro lateral encima.
+3. Mete las cuñas con la parte delgada primero y dales un golpe suave con un mazo de hule.
+4. Lija los cantos (o pásales una fresa de redondeo). Si quieres que las cuñas contrasten,
+   píntalas o tíñelas de otro color.
+5. Vuelve a apretar las cuñas después de unos días de uso.
