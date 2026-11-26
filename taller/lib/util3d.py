@@ -1,10 +1,9 @@
 """Utilidades compartidas: exportar mallas y renderizar vistas previas."""
+import json, os, subprocess, tempfile
 import numpy as np
 import trimesh
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+
+RENDER_JS = os.path.join(os.path.dirname(__file__), "..", "render", "render.js")
 
 
 def a_trimesh(m):
@@ -25,27 +24,39 @@ def exportar(m, ruta_sin_ext):
     return t
 
 
-def render(mallas, ruta_png, titulo="", elev=28, azim=-55, colores=None):
-    """Vista previa sombreada simple con matplotlib."""
-    fig = plt.figure(figsize=(8, 6), dpi=150)
-    ax = fig.add_subplot(111, projection="3d")
-    luz = np.array([0.4, -0.5, 0.8]); luz /= np.linalg.norm(luz)
-    todos = []
+def render(mallas, ruta_png, titulo="", elev=28, azim=-55, colores=None, zoom=1.0, extras=None):
+    """Render WebGL (three.js en Chromium): profundidad correcta, sombras y aristas.
+    `extras`: lista de dicts por malla con opciones (rugosidad, metal, opacidad, aristas)."""
+    colores = colores or ["#e07a2f"]
+    escena = {"elev": elev, "azim": azim, "zoom": zoom, "mallas": []}
     for i, t in enumerate(mallas):
-        base = np.array(matplotlib.colors.to_rgb((colores or ["#e07a2f"])[i % len(colores or [1])]))
-        # triángulos pequeños = mejor orden de dibujo en matplotlib
-        tam = max(t.extents) / 45
-        vs, fs = trimesh.remesh.subdivide_to_size(t.vertices, t.faces, max_edge=tam)
-        t = trimesh.Trimesh(vs, fs, process=False)
-        tri = t.vertices[t.faces]
-        sh = np.clip(t.face_normals @ luz, 0, 1) * 0.65 + 0.35
-        col = np.clip(base[None, :] * sh[:, None], 0, 1)
-        ax.add_collection3d(Poly3DCollection(tri, facecolors=col, edgecolors=col, linewidths=0.3))
-        todos.append(t.vertices)
-    v = np.vstack(todos)
-    c = (v.max(0) + v.min(0)) / 2; r = (v.max(0) - v.min(0)).max() / 2 * 0.72
-    ax.set_xlim(c[0]-r, c[0]+r); ax.set_ylim(c[1]-r, c[1]+r); ax.set_zlim(c[2]-r, c[2]+r)
-    ax.set_box_aspect((1, 1, 1)); ax.view_init(elev=elev, azim=azim); ax.set_axis_off()
+        d = {"v": np.asarray(t.vertices, float).ravel().round(4).tolist(),
+             "f": np.asarray(t.faces, int).ravel().tolist(),
+             "color": colores[i % len(colores)]}
+        if extras and i < len(extras) and extras[i]:
+            d.update(extras[i])
+        escena["mallas"].append(d)
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+        json.dump(escena, f)
+    try:
+        subprocess.run(["node", RENDER_JS, f.name, os.path.abspath(ruta_png)], check=True)
+    finally:
+        os.unlink(f.name)
     if titulo:
-        ax.set_title(titulo, fontsize=12)
-    fig.tight_layout(); fig.savefig(ruta_png, facecolor="white"); plt.close(fig)
+        _titulo(ruta_png, titulo)
+
+
+def _titulo(ruta_png, titulo):
+    """Agrega una franja de título arriba de la imagen (sin tapar el modelo)."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    img = plt.imread(ruta_png)
+    h, w = img.shape[:2]
+    banda = int(h * 0.09)
+    fig = plt.figure(figsize=(w / 200, (h + banda) / 200), dpi=200)
+    fig.patch.set_facecolor("#f4f2ee")
+    ax = fig.add_axes([0, 0, 1, h / (h + banda)]); ax.imshow(img); ax.set_axis_off()
+    fig.text(0.035, 1 - banda / (h + banda) / 2, titulo, fontsize=15, color="#2b2b2b",
+             va="center", weight="bold")
+    fig.savefig(ruta_png, facecolor=fig.get_facecolor()); plt.close(fig)
