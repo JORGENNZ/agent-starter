@@ -38,3 +38,4 @@ pm2-debug.log*
 tmp/
 *.tmp
 .temp/
+__pycache__/
