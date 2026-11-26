@@ -14,7 +14,7 @@ python3 taller/proyectos/<proyecto>/modelo.py
 |---|---|
 | P2S | Brida de sujeción · **Frasco con tapa de rosca** |
 | A2L | Porta-fresas · **Colección de floreros** |
-| CNC 1325 | Soporte para iPad (MDF 18) · **Banco armable (MDF 25)** |
+| CNC 1325 | Soporte para iPad (MDF 18) · **Banco armable (MDF 25)** · Silla de cuñas · **Sillón de costillas (1 hoja)** |
 
 ---
 
@@ -147,3 +147,48 @@ si no entra, súbela.
 4. Lija los cantos (o pásales una fresa de redondeo). Si quieres que las cuñas contrasten,
    píntalas o tíñelas de otro color.
 5. Vuelve a apretar las cuñas después de unos días de uso.
+
+---
+
+## 8. Sillón de costillas — CNC 1325, MDF 18 mm, **una sola hoja**
+Carpeta `sillon-costillas/` · archivo `hoja-1.dxf` · acomodo en `hojas.png` · vistas `vista*.png`
+
+Sillón lounge de 15 costillas paramétricas, cada una distinta:
+- **asiento en cuna:** baja 24 mm al centro, así abraza la cadera.
+- **frente en ola:** el centro sale 18 mm más.
+- **respaldo envolvente:** las costillas de afuera se adelantan 46 mm arriba, y el centro es 60 mm más alto.
+
+**Estructura sin tornillos:**
+- **2 caballetes** (las patas, abiertos hacia afuera). Cada costilla se asienta en ellos por una ranura desde abajo. El trasero va inclinado hacia atrás (pie a 712 mm) para que el sillón no se vaya de espaldas. El delantero va inclinado hacia adelante (pie a 60 mm), casi debajo de la orilla del asiento, para que no se vaya de frente si alguien se sienta en la punta.
+- **1 cresta:** barra curva atrás del respaldo que amarra las puntas.
+
+Medidas: 593 mm de ancho, 706 de fondo y 975 de alto. Asiento a unos 400 mm al frente.
+
+**Diseñado para el corte:**
+- Las costillas son bandas en "J" que se acomodan una dentro de otra, como cucharas.
+- El sillón completo (18 piezas) sale de **una hoja de 1220 × 2440**.
+- El acomodo se calcula solo (`taller/lib/nesting.py`): apila las costillas y busca el giro del bloque que deja lugar a las patas y la cresta.
+
+**El modelo revisa:**
+- que ninguna pieza se encime con otra;
+- que cada caballete y la cresta entren en las 15 costillas;
+- que ninguna pieza quede debajo del piso.
+
+**En VCarve Pro** (MDF de 18 mm, Z cero en la superficie):
+1. Importa `hoja-1.dxf`.
+2. **GRABADO** → *Quick Engrave* o *Profile On*, con V-bit a 1 mm. Son los números de pieza (C01–C15, P1, P2, CR).
+3. **CORTE_EXT** → *Profile*, **Outside**, fresa plana de 1/4", a 18.3 mm. Usa 3 tabs en cada costilla y 4 en patas y cresta.
+4. Pasadas de 6 mm. Postprocesador: **RichAuto (mm)**.
+
+**Prueba primero:** corta solo la costilla C08 y el caballete P1. La ranura debe entrar justa en el caballete.
+
+**Armado:**
+1. Para los 2 caballetes.
+2. Baja las costillas en orden (C01 → C15) sobre sus ranuras.
+3. Mete la cresta por atrás, a presión.
+4. Lija o redondea los cantos de arriba de las costillas: es donde te sientas.
+
+**Notas:**
+- La cresta entra a presión. Si la quieres permanente, ponle una gota de pegamento blanco en cada ranura.
+- Las patas apoyan en canto porque van inclinadas. Ponles regatones de fieltro.
+- Para triplay (con veta) cambia `GIRO = 90`, para que las piezas no se giren en ángulos raros contra la veta.
