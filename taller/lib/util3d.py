@@ -24,11 +24,12 @@ def exportar(m, ruta_sin_ext):
     return t
 
 
-def render(mallas, ruta_png, titulo="", elev=28, azim=-55, colores=None, zoom=1.0, extras=None):
+def render(mallas, ruta_png, titulo="", elev=28, azim=-55, colores=None, zoom=1.0, extras=None, **escena_extra):
     """Render WebGL (three.js en Chromium): profundidad correcta, sombras y aristas.
     `extras`: lista de dicts por malla con opciones (rugosidad, metal, opacidad, aristas)."""
     colores = colores or ["#e07a2f"]
     escena = {"elev": elev, "azim": azim, "zoom": zoom, "mallas": []}
+    escena.update(escena_extra)   # fondo, ambiente, sol, relleno, luces, objetivo
     for i, t in enumerate(mallas):
         d = {"v": np.asarray(t.vertices, float).ravel().round(4).tolist(),
              "f": np.asarray(t.faces, int).ravel().tolist(),

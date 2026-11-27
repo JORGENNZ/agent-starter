@@ -34,7 +34,7 @@ def orientar(g, ang, espejo):
 
 
 def acomodar(piezas, hoja=(1220, 2440), margen=12, separacion=12, res=4.0,
-             paso_giro=15, espejo=True, giros=None, fijas=None):
+             paso_giro=15, espejo=True, giros=None, fijas=None, sin_espejo=()):
     """piezas: lista de (nombre, polígono shapely). Devuelve lista de hojas;
     cada hoja es una lista de dicts {nombre, geom, ang, espejo, dx, dy}."""
     W, H = int(hoja[0] / res), int(hoja[1] / res)
@@ -60,7 +60,7 @@ def acomodar(piezas, hoja=(1220, 2440), margen=12, separacion=12, res=4.0,
                 hoja_nueva()
             mejor = None
             for ang in giros:
-                for esp in ([False, True] if espejo else [False]):
+                for esp in ([False, True] if (espejo and nombre not in sin_espejo) else [False]):
                     go = orientar(g, ang, esp)
                     gd = go.buffer(separacion / 2 + res * 0.75, join_style=1)
                     mnx, mny, mxx, mxy = gd.bounds

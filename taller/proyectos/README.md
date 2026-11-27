@@ -244,43 +244,62 @@ Todo se arma con espigas pasantes y cuñas, como la silla. Sin tornillos ni pega
 
 ---
 
-## 10. Librero Skyline — CNC 1325, MDF 18 mm, 2 hojas (+ sujetalibros con el sobrante)
-Carpeta `librero-skyline/` · archivos `hoja-1.dxf`, `hoja-2.dxf` · acomodo en `hojas.png`
-· vistas `vista.png`, `vista-libros.png`, `vista-lado.png`
+## 10. Librero Skyline (versión interiorismo) — CNC 1325, MDF 18 mm, 2 hojas
+Carpeta `librero-skyline/` · archivos `hoja-1.dxf` y `hoja-2.dxf` · acomodo en `hojas.png`.
+Ambientes: `ambiente-nordico.png`, `ambiente-terracota.png`, `ambiente-contemporaneo.png` y `ambiente-noche.png`.
 
-**Medidas:** 1178 de ancho × 338 de fondo × 1810 de alto. Son 4 paredes y 6 repisas.
+**Medidas:** 1178 de ancho × 338 de fondo × 1810 de alto. Son 4 paredes, 6 repisas y 3 paneles de fondo.
 
-**El diseño:**
+**La estructura:**
 - **Composición asimétrica:** las paredes van a 340, 360 y 340 mm, y no todas las repisas van de lado a lado.
-  Por eso los nichos son distintos, y hay uno alto (660 mm) para vinilos, plantas o tocadiscos.
+  Los nichos son distintos, con uno alto de 660 mm.
 - **Más profundo abajo (320) que arriba (220),** con una ola suave en el frente de las paredes.
-  El peso queda abajo y los libros grandes también.
 - **Skyline:** las paredes sobresalen arriba a distintas alturas, con puntas redondas.
 - **Repisas abombadas** entre pared y pared, con puntas redondas que sobresalen 60 mm.
+- **Armado:** encastre a media madera. Cada repisa entra por el frente y se desliza hacia atrás.
 
-**Armado sin herramientas:**
-- Las uniones son encastre a media madera: la ranura de la pared abre al frente y la de la repisa abre atrás.
-- Para las 4 paredes y mete cada repisa por el frente, deslizándola hacia atrás.
+**Elementos de interiorismo:**
+- **Celosía de arcos** al fondo del nicho alto: es el punto focal. De noche, con el LED, proyecta la luz
+  a través de los arcos. La repisa 3 trae una muesca para que la celosía pase completa.
+- **2 paneles de acento:** `FONDO-1` con un "ojo" redondo calado y `FONDO-2` liso. Se pintan de otro color.
+- **Montaje de los paneles sin herramientas:**
+  - Cada panel lleva espigas que entran en cajas pasantes de las repisas (12 mm abajo; arriba quedan al ras).
+  - Es 13 mm más bajo que el hueco. Esa **junta de sombra** arriba es un detalle de diseño y además
+    permite montarlo: lo subes, metes las espigas de abajo y lo bajas.
+  - El modelo verifica que al subirlo 12.5 mm no choque con nada.
+- **Canal para tira LED** bajo las repisas 2 a 6: bolsillo de 12 × 8 mm a 26 mm del frente, con salida de cable
+  por la punta derecha hacia atrás. Usa tira LED de 10 mm, 2700–3000 K (luz cálida), con perfil difusor si quieres
+  que no se vean los puntos. Cada canal ilumina el nicho de abajo.
+
+**3 paletas de acabados** (pintura base agua y tinta para madera):
+
+| Paleta | Estructura | Repisas | Acentos | Celosía | Ambiente |
+|---|---|---|---|---|---|
+| Nórdico | blanco roto `#EEE7DC` | tono roble `#CFA979` | verde salvia `#A3B18A` / salvia claro | roble | pared hueso, piso de madera clara, plantas |
+| Terracota | arena `#EADFCE` | arena | terracota `#C0643C` / durazno `#DBA07A` | terracota quemado | mediterráneo, piso barro |
+| Contemporáneo | negro mate `#2E2C2A` | nogal `#7A5638` | latón `#B0905A` / verde petróleo `#3E4944` | latón | gris cálido; luce más de noche con el LED |
+
+Consejo de estilismo: deja 1/3 de cada nicho libre y alterna libros acostados y parados.
+Pon un objeto u objeto-planta por nicho y repite 2 o 3 colores en todo el mueble.
 
 **Aprovechamiento:**
-- **Hoja 1:** las 4 paredes, acomodadas una contra otra con la ola de su frente.
-- **Hoja 2:** las repisas.
-- Lo que sobra se llena con **sujetalibros a juego** (respaldo con ola + base, con espigas a presión).
-  Caben 23 juegos y las hojas quedan al **78 % y 70 %**.
-- Si prefieres guardar un retazo grande, baja `maximo` en la llamada a `rellenar()`.
+- **Hoja 1:** paredes y repisa 1. **Hoja 2:** el resto.
+- Con el sobrante salen **15 sujetalibros a juego** y las hojas quedan al **78 % y 68 %**.
+- Las repisas con canal LED se acomodan volteadas, con la cara de la canal hacia arriba en la CNC.
 
 **El modelo revisa:**
 - que ninguna pieza se encime con otra;
-- que los 22 cruces repisa/pared queden trabados;
-- que todas las piezas salgan enteras;
-- que no quede ningún puente de material menor a 6 mm.
+- que los 22 cruces queden trabados;
+- que las espigas de los paneles entren al 100 % y los paneles se puedan montar;
+- que las piezas salgan enteras, con puentes de al menos 6 mm;
+- que las canales LED no toquen cajas ni barrenos.
 
-**⚠️ Seguridad:** un librero de 1.8 m **siempre se ancla a la pared**. La repisa de arriba trae 2 barrenos
-de 9 mm junto a la orilla trasera para taquete y pija, o para una correa antivuelco.
+**⚠️ Seguridad:** ancla el librero a la pared. La repisa de arriba trae 2 barrenos de 9 mm.
 
-**En VCarve Pro:**
-1. Importa cada hoja.
-2. **CORTE_INT** (barrenos de anclaje y cajas de los sujetalibros) → *Profile Inside*. **Primero estos.**
-3. **CORTE_EXT** → *Profile Outside*, fresa plana de 1/4", a 18.3 mm.
-   Usa 4 o 5 tabs en las paredes y repisas, y 1 en cada pieza de sujetalibros.
-4. **Prueba antes:** corta una repisa y una pared y revisa que la ranura entre justa. Mide el MDF y ajusta `T`.
+**En VCarve Pro, orden de operaciones:**
+1. **BOLSILLO_LED_8mm** → *Pocket*, fresa plana de 1/4", 8 mm de profundidad.
+2. **CORTE_INT** (cajas, celosía, ojo, barrenos) → *Profile Inside*, a 18.3 mm.
+3. **CORTE_EXT** → *Profile Outside*, a 18.3 mm, con tabs.
+
+En la celosía, deja **1 tab en cada arco**, o córtala con *onion skin* (dejar 0.5 mm al fondo y luego
+cortar con cúter), para que los arcos no se suelten y golpeen la fresa.
