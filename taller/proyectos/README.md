@@ -14,7 +14,7 @@ python3 taller/proyectos/<proyecto>/modelo.py
 |---|---|
 | P2S | Brida de sujeción · **Frasco con tapa de rosca** |
 | A2L | Porta-fresas · **Colección de floreros** |
-| CNC 1325 | Soporte para iPad (MDF 18) · **Banco armable (MDF 25)** · Silla de cuñas · **Sillón de costillas (1 hoja)** |
+| CNC 1325 | Soporte para iPad (MDF 18) · **Banco armable (MDF 25)** · Silla de cuñas · **Sillón de costillas (1 hoja)** · **Cama para perro + comedero** |
 
 ---
 
@@ -192,3 +192,52 @@ Medidas: 593 mm de ancho, 706 de fondo y 975 de alto. Asiento a unos 400 mm al f
 - La cresta entra a presión. Si la quieres permanente, ponle una gota de pegamento blanco en cada ranura.
 - Las patas apoyan en canto porque van inclinadas. Ponles regatones de fieltro.
 - Para triplay (con veta) cambia `GIRO = 90`, para que las piezas no se giren en ángulos raros contra la veta.
+
+---
+
+## 9. Cama sofá para perro + comedero a juego — CNC 1325, MDF 18 mm
+Carpeta `cama-perro/` · `python3 taller/proyectos/cama-perro/modelo.py S|M|L`
+
+Archivos por talla: `cama-<T>-hoja-1.dxf`, `hoja-<T>.png`, `vista-<T>.png` y `vista-cojin-<T>.png`.
+En la L, el comedero va aparte en `comedero-L.dxf`.
+
+**Cama:**
+- Laterales tipo brazo de sofá: altos atrás, bajos al frente, con patas.
+- Respaldo con un hueso calado, que sirve de agarradera.
+- Frente bajo con curva al centro para que el perro entre fácil.
+- Piso elevado 8 cm, con un camino de huellas caladas que ventilan el cojín.
+
+**Comedero elevado:** dos platos, patas con la misma curva y una huella. La cubierta queda 22 mm abajo
+del borde de las patas, así los platos no se resbalan.
+
+Todo se arma con espigas pasantes y cuñas, como la silla. Sin tornillos ni pegamento.
+
+| Talla | Cojín | Perro | Cama (ancho × fondo × alto) | Platos | Hojas |
+|---|---|---|---|---|---|
+| S | 65 × 50 cm | hasta ~10 kg | 774 × 636 × 300 mm | 150 mm, alto 150 | 1 (cama + comedero) |
+| M | 80 × 60 cm | ~10–25 kg | 924 × 736 × 380 mm | 180 mm, alto 240 | 1 (cama + comedero) |
+| L | 100 × 70 cm | ~25–40 kg | 1124 × 836 × 450 mm | 220 mm, alto 330 | 1 (cama) + un sobrante de 1220 × 700 (comedero) |
+
+**Revisiones del modelo (en las 3 tallas):**
+- Ninguna pieza se encima con otra.
+- Cada espiga pasa completa por su caja.
+- Todas las piezas salen enteras.
+- Ningún puente de material entre agujeros mide menos de 6 mm.
+
+**Antes de cortar:**
+- **Platos:** mide el diámetro exterior del borde de tus platos y pon ese valor en `COMEDERO[talla]["plato"]`.
+  El hueco se hace 12 mm más chico para que el plato se apoye en su borde.
+- **MDF:** mide el grosor real y pon el valor en `T`.
+
+**En VCarve Pro:**
+1. Importa el DXF.
+2. **CORTE_INT** (cajas, huellas, hueso, agujeros de cuña) → *Profile Inside*, fresa plana de 1/4", a 18.3 mm, con 1 o 2 tabs. **Primero estos.**
+3. **CORTE_EXT** → *Profile Outside*, a 18.3 mm, con 3 o 4 tabs por pieza y 1 por cuña.
+4. Opcional: graba el nombre del perro en el respaldo con *V-Carve* (texto de VCarve, V-bit de 60° o 90°).
+
+**Acabado (importante con perros):**
+- El MDF se hincha con agua y orines. Sella **todas las caras y sobre todo los cantos** con 2 o 3 manos de
+  poliuretano o pintura **base agua, no tóxica**.
+- Si la cama va a estar en exterior o en zona húmeda, mejor usa MDF RH (verde, resistente a la humedad) o triplay.
+- Redondea cantos y cuñas con lija o con una fresa de redondeo. Si el perro es mordelón, revisa las cuñas
+  de vez en cuando.
