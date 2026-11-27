@@ -14,7 +14,7 @@ python3 taller/proyectos/<proyecto>/modelo.py
 |---|---|
 | P2S | Brida de sujeción · **Frasco con tapa de rosca** |
 | A2L | Porta-fresas · **Colección de floreros** |
-| CNC 1325 | Soporte para iPad (MDF 18) · **Banco armable (MDF 25)** · Silla de cuñas · **Sillón de costillas (1 hoja)** · **Cama para perro + comedero** · **Librero Skyline** |
+| CNC 1325 | Soporte para iPad (MDF 18) · **Banco armable (MDF 25)** · Silla de cuñas · **Sillón de costillas (1 hoja)** · **Cama para perro + comedero** · Librero Skyline · **Librero Estribo (minimalista)** |
 
 ---
 
@@ -303,3 +303,59 @@ Pon un objeto u objeto-planta por nicho y repite 2 o 3 colores en todo el mueble
 
 En la celosía, deja **1 tab en cada arco**, o córtala con *onion skin* (dejar 0.5 mm al fondo y luego
 cortar con cúter), para que los arcos no se suelten y golpeen la fresa.
+
+---
+
+## 11. Librero Estribo — minimalismo de lujo silencioso — CNC 1325, MDF 18 mm
+Carpeta `librero-estribo/` · archivos `hoja-1.dxf` y `hoja-2.dxf` · acomodo en `hojas.png`.
+Ambientes: `ambiente-crema-conac.png`, `ambiente-roble-conac.png` y `ambiente-grafito-conac.png`.
+Detalle: `detalle-costura.png`.
+
+**Medidas:** 1174 de ancho × 320 de fondo × 1665 de alto. Son 3 paredes y 5 repisas. Nada más.
+
+**Principios:**
+- **Pocas piezas, proporción y vacío.** El adorno es el oficio.
+- **Silueta de estribo:** cada pared remata en medio punto arriba y lleva un arco abajo. El mueble parece flotar.
+- **Repisas lisas, al ras de los costados.** En las caras exteriores, la punta de cada repisa se ve como una
+  incrustación.
+- **Separaciones que se cierran hacia arriba:** 380, 340, 300 y 260 mm. Es una gradación que se siente más
+  de lo que se ve.
+- **Claros de 560 mm:** flecha estimada de 2.7 mm a largo plazo con libros. No se pandea.
+- **Único detalle: costura de talabartería.** Es una línea de puntadas grabada (V-bit de 90°, 1.2 mm) alrededor de las
+  dos caras exteriores, que se interrumpe donde pasa cada repisa. Rellénala con cera de color coñac o déjala tono sobre tono.
+
+**Paletas** (laca o pintura base agua mate, satinada al 10 %):
+
+| Paleta | Mueble | Costura | Ambiente |
+|---|---|---|---|
+| Crema y coñac | crema `#E6DDCF` | coñac `#A9612D` | pared hueso, roble claro |
+| Roble y coñac | roble entintado `#C4A27A` | chocolate `#6E4327` | blanco cálido |
+| Grafito y coñac | grafito `#3A3835` | coñac `#B8692F` | gris piedra |
+
+**Estilismo:**
+- Pocos objetos y mucho aire, con un nicho vacío a propósito.
+- Libros acostados en pilas de 3 o 4, una sola esfera o cerámica por nicho, y un acento en piel o coñac.
+- Repite 3 tonos como máximo.
+
+**El modelo revisa:**
+- que ninguna pieza se encime con otra;
+- que los 15 cruces queden trabados;
+- que las separaciones sean exactas y la repisa de arriba quede debajo del arranque del arco;
+- que todas las piezas salgan enteras y las puntadas queden dentro de la pieza.
+
+**Material:** 2 hojas (79 % y 37 %). La segunda deja un retazo limpio de ~1.2 × 1.3 m, útil para una mesa auxiliar
+o una segunda pieza. Incluye 4 sujetalibros de medio arco a juego.
+
+**Antes de cortar:**
+- La pared izquierda se acomoda volteada para que su costura quede en la cara exterior.
+
+**En VCarve Pro:**
+1. **GRABADO_COSTURA** → *Profile On* con V-bit de 90° a 1.2 mm, o *Quick Engrave*.
+2. **CORTE_INT** (barrenos de anclaje) → *Profile Inside*.
+3. **CORTE_EXT** → *Profile Outside*, fresa plana de 1/4", a 18.3 mm, con tabs.
+4. **Acabado:**
+   - Pasa una fresa de canto redondo r = 2 mm por los cantos visibles.
+   - Lija con grano 220 y sella los cantos del MDF con sellador o *primer* antes de la laca. Esto es lo que
+     hace que el MDF se vea fino.
+
+**⚠️ Ancla a la pared** con los 2 barrenos de la repisa de arriba.
