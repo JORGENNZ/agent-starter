@@ -204,3 +204,48 @@ def acomodar_mirando(grupo, sueltas, hoja=(1220, 2440), margen=12, separacion=12
         hs[0] = [dict(nombre=n, geom=g, ang=ang, espejo=esp, dx=dx, dy=dy) for n, g in fijas] + hs[0]
     verificar(hs, hoja, margen, separacion)
     return hs
+
+
+def rellenar(hojas, generador, hoja=(1220, 2440), margen=12, separacion=12, res=4.0,
+             giros=range(0, 360, 15), maximo=200):
+    """Llena el sobrante de hojas ya acomodadas con copias de un juego de piezas.
+    generador(k) -> lista de (nombre, geom) que forman UN juego (se coloca completo o nada)."""
+    W, H = int(hoja[0] / res), int(hoja[1] / res)
+    agregados = 0
+    for ps in hojas:
+        o = np.zeros((H, W), np.float32)
+        m = int(math.ceil(margen / res))
+        o[:m, :] = o[-m:, :] = o[:, :m] = o[:, -m:] = 1
+        for p in ps:
+            o += _raster(p["geom"].buffer(separacion / 2 + res * 0.75, join_style=1), res, 0, 0, W, H)
+        while agregados < maximo:
+            juego = generador(agregados)
+            o_try, puestos = o.copy(), []
+            for nombre, g in juego:
+                mejor = None
+                for ang in giros:
+                    go = orientar(g, ang, False)
+                    gd = go.buffer(separacion / 2 + res * 0.75, join_style=1)
+                    mnx, mny, mxx, mxy = gd.bounds
+                    w, h = int(math.ceil((mxx - mnx) / res)) + 1, int(math.ceil((mxy - mny) / res)) + 1
+                    msk = _raster(gd, res, mnx, mny, w, h)
+                    corr = fftconvolve(o_try, msk[::-1, ::-1], mode="valid")
+                    lib = np.argwhere(corr < 0.5)
+                    if not len(lib):
+                        continue
+                    sc = lib[:, 0] * 10000 + lib[:, 1]
+                    j = int(np.argmin(sc))
+                    if mejor is None or sc[j] < mejor[0]:
+                        mejor = (sc[j], lib[j], ang, go, msk, mnx, mny)
+                if mejor is None:
+                    puestos = None; break
+                _, (r, c), ang, go, msk, mnx, mny = mejor
+                o_try[r:r + msk.shape[0], c:c + msk.shape[1]] += msk
+                dx, dy = c * res - mnx, r * res - mny
+                puestos.append(dict(nombre=nombre, geom=affinity.translate(go, dx, dy), ang=ang,
+                                    espejo=False, dx=dx, dy=dy))
+            if not puestos:
+                break
+            o = o_try; ps.extend(puestos); agregados += 1
+    verificar(hojas, hoja, margen, separacion)
+    return agregados

@@ -14,7 +14,7 @@ python3 taller/proyectos/<proyecto>/modelo.py
 |---|---|
 | P2S | Brida de sujeción · **Frasco con tapa de rosca** |
 | A2L | Porta-fresas · **Colección de floreros** |
-| CNC 1325 | Soporte para iPad (MDF 18) · **Banco armable (MDF 25)** · Silla de cuñas · **Sillón de costillas (1 hoja)** · **Cama para perro + comedero** |
+| CNC 1325 | Soporte para iPad (MDF 18) · **Banco armable (MDF 25)** · Silla de cuñas · **Sillón de costillas (1 hoja)** · **Cama para perro + comedero** · **Librero Skyline** |
 
 ---
 
@@ -241,3 +241,46 @@ Todo se arma con espigas pasantes y cuñas, como la silla. Sin tornillos ni pega
 - Si la cama va a estar en exterior o en zona húmeda, mejor usa MDF RH (verde, resistente a la humedad) o triplay.
 - Redondea cantos y cuñas con lija o con una fresa de redondeo. Si el perro es mordelón, revisa las cuñas
   de vez en cuando.
+
+---
+
+## 10. Librero Skyline — CNC 1325, MDF 18 mm, 2 hojas (+ sujetalibros con el sobrante)
+Carpeta `librero-skyline/` · archivos `hoja-1.dxf`, `hoja-2.dxf` · acomodo en `hojas.png`
+· vistas `vista.png`, `vista-libros.png`, `vista-lado.png`
+
+**Medidas:** 1178 de ancho × 338 de fondo × 1810 de alto. Son 4 paredes y 6 repisas.
+
+**El diseño:**
+- **Composición asimétrica:** las paredes van a 340, 360 y 340 mm, y no todas las repisas van de lado a lado.
+  Por eso los nichos son distintos, y hay uno alto (660 mm) para vinilos, plantas o tocadiscos.
+- **Más profundo abajo (320) que arriba (220),** con una ola suave en el frente de las paredes.
+  El peso queda abajo y los libros grandes también.
+- **Skyline:** las paredes sobresalen arriba a distintas alturas, con puntas redondas.
+- **Repisas abombadas** entre pared y pared, con puntas redondas que sobresalen 60 mm.
+
+**Armado sin herramientas:**
+- Las uniones son encastre a media madera: la ranura de la pared abre al frente y la de la repisa abre atrás.
+- Para las 4 paredes y mete cada repisa por el frente, deslizándola hacia atrás.
+
+**Aprovechamiento:**
+- **Hoja 1:** las 4 paredes, acomodadas una contra otra con la ola de su frente.
+- **Hoja 2:** las repisas.
+- Lo que sobra se llena con **sujetalibros a juego** (respaldo con ola + base, con espigas a presión).
+  Caben 23 juegos y las hojas quedan al **78 % y 70 %**.
+- Si prefieres guardar un retazo grande, baja `maximo` en la llamada a `rellenar()`.
+
+**El modelo revisa:**
+- que ninguna pieza se encime con otra;
+- que los 22 cruces repisa/pared queden trabados;
+- que todas las piezas salgan enteras;
+- que no quede ningún puente de material menor a 6 mm.
+
+**⚠️ Seguridad:** un librero de 1.8 m **siempre se ancla a la pared**. La repisa de arriba trae 2 barrenos
+de 9 mm junto a la orilla trasera para taquete y pija, o para una correa antivuelco.
+
+**En VCarve Pro:**
+1. Importa cada hoja.
+2. **CORTE_INT** (barrenos de anclaje y cajas de los sujetalibros) → *Profile Inside*. **Primero estos.**
+3. **CORTE_EXT** → *Profile Outside*, fresa plana de 1/4", a 18.3 mm.
+   Usa 4 o 5 tabs en las paredes y repisas, y 1 en cada pieza de sujetalibros.
+4. **Prueba antes:** corta una repisa y una pared y revisa que la ranura entre justa. Mide el MDF y ajusta `T`.
